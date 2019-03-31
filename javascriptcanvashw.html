@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Example</title>
+    <style type="text/css">
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <canvas id="canvas" width="500" height="500">
+        An alternative text describing what your canvas displays.
+    </canvas>
+    <br> Choose a color: <input type="color" value="#FF0000" id='colorPicker'>
+
+    <script>
+        var canvas = document.querySelector('canvas');
+    	var ctx = canvas.getContext('2d');
+
+      canvas.width = window.innerWidth * .8;
+      canvas.height = window.innerHeight * .8;
+
+        var x = 0;
+        var y = 0;
+        var radius = 20;
+        var color = 'red';
+
+
+        function drawCircle(){
+            ctx.beginPath();
+            ctx.fillStyle = color;
+            ctx.arc(x,y,radius,0,2*Math.PI);
+            ctx.fill();
+        }
+
+        window.addEventListener('mousemove', function (e) {
+            x = e.pageX;
+            y = e.pageY;
+            drawCircle()
+        })
+
+        window.addEventListener('keydown', function(e){
+            if(e.keyCode == '66'){
+                color = 'blue';
+                colorPicker.value = "#0000FF"
+            }
+            else if (e.keyCode == '71') {
+                color = 'green';
+                colorPicker.value = "#008000"
+            }
+            else if (e.keyCode == '82') {
+                color = 'red';
+                colorPicker.value = "#FF0000"
+            }
+            else if (e.keyCode == '89') {
+                color = 'yellow';
+                colorPicker.value = "#FFFF00"
+            }
+            else if (e.keyCode == '38') {
+                radius += 5;
+            }
+            else if (e.keyCode == '40') {
+                if (radius > 5){
+                    radius -= 5;
+                }
+            }
+            else if (e.keyCode == '32') {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        })
+
+        window.addEventListener('orientationchange', function(){
+          ctx.clearRect(0,0,canvas.width, canvas.height);
+          canvas.width = window.innerWidth * .8;
+          canvas.height = window.innerHeight * .8;
+        })
+
+        canvas.addEventListener('touchmove', function(e){
+          x = e.pageX;
+          y = e.pageY;
+          drawCircle()
+
+          event.preventDefault();
+        }, false)
+
+        colorPicker.addEventListener('input', function(e){
+          color = colorPicker.value;
+        })
+
+        window.addEventListener('resize', function(){
+          canvas.width = window.innerWidth * .8;
+          canvas.height = window.innerHeight * .8;
+        })
+
+    </script>
+</body>
+
+</html>
